@@ -1,0 +1,8 @@
+FROM rockylinux/rockylinux:latest
+RUN dnf update -y && \
+    dnf install -y httpd php php-mysqlnd && \
+    dnf clean all && \
+    rm -rf /var/cache/dnf/*
+COPY index.html /var/www/html/
+EXPOSE 80
+CMD ["httpd", "-D", "FOREGROUND"]

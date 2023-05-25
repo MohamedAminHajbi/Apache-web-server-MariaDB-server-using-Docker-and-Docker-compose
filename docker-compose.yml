@@ -1,0 +1,30 @@
+version: '3'
+services:
+  apache:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9090:80"
+    depends_on:
+      - db
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: database
+  phpmyadmin:
+    hostname: phpmyadmin
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+    links:
+      - db:db
+    depends_on:
+      - db
+    ports:
+      - 7002:80
